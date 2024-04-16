@@ -2,12 +2,15 @@ import { createComment } from "@/app/comment/action";
 import BaseModal from "../common/BaseModal";
 import Button from "../common/Button";
 import Input from "../common/Input";
+import { useFormStatus } from "react-dom";
 
 type Props = {
   onClose: () => void;
 };
 
 const ModalCreateComment: React.FC<Props> = ({ onClose }) => {
+  const { pending } = useFormStatus();
+  
   return (
     <BaseModal onClose={onClose}>
       <div className="bg-[#FFFFFF] rounded-[10px] p-[50px]">
@@ -18,7 +21,7 @@ const ModalCreateComment: React.FC<Props> = ({ onClose }) => {
           <Input type="text" name="email" placeholder="Email" />
           <Input type="text" name="body" placeholder="Body" />
 
-          <Button type="submit" text="Submit" />
+          <Button type="submit" text="Submit" disabled={pending} />
         </form>
       </div>
     </BaseModal>

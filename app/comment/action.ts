@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 type CommentDto = {
   id: number;
@@ -11,7 +11,9 @@ type CommentDto = {
 };
 
 export async function getComments(): Promise<CommentDto[]> {
-  const res = await fetch("https://jsonplaceholder.typicode.com/comments");
+  const res = await fetch("https://jsonplaceholder.typicode.com/comments", {
+    next: { tags: ["comments"] },
+  });
 
   console.log("[get comments]");
 
@@ -39,7 +41,8 @@ export async function createComment(data: FormData): Promise<CommentDto> {
     }),
   });
 
-  revalidatePath("/comment");
+  //revalidatePath("/comment");
+  revalidateTag('comments')
 
   return res.json();
 }
